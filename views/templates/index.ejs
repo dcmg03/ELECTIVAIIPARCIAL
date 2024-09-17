@@ -2,21 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Evaluación NodeJS con EJS</title>
-  <link rel="stylesheet" href="/styles.css"> <!-- Añadir estilos CSS si es necesario -->
+  <title>Formulario de Registro</title>
+  <link rel="stylesheet" href="/styles.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <h1>Formulario de Registro</h1>
 
-  <!-- Formulario para capturar datos -->
   <form action="/add-object" method="POST">
     <label for="departamento">Departamento:</label>
     <select id="departamento" name="departamento">
       <option value="" disabled selected>Selecciona un Departamento</option>
-      <% for (let departamento in departamentos) { %>
-        <option value="<%= departamento %>"><%= departamento %></option>
-      <% } %>
+      <% departamentos.forEach(function(departamento) { %>
+        <option value="<%= departamento.code %>"><%= departamento.name %></option>
+      <% }); %>
     </select>
 
     <label for="municipio">Municipio:</label>
@@ -24,12 +23,27 @@
       <option value="" disabled selected>Selecciona un Municipio</option>
     </select>
 
-    <!-- Agrega otros campos necesarios para tu objeto aquí -->
-
     <button type="submit">Agregar</button>
   </form>
 
-  <!-- Script para actualizar municipios dinámicamente -->
+  <h2>Objetos Registrados</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Departamento</th>
+        <th>Municipio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% objetos.forEach(function(objeto) { %>
+        <tr>
+          <td><%= objeto.departamento %></td>
+          <td><%= objeto.municipio %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+
   <script>
     $('#departamento').change(function() {
       const departamento = $(this).val();
@@ -43,20 +57,5 @@
       });
     });
   </script>
-
-  <!-- Tabla para mostrar objetos agregados -->
-  <h2>Objetos Registrados</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Departamento</th>
-        <th>Municipio</th>
-        <!-- Añadir más columnas según los atributos del objeto -->
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Aquí se mostrarán los objetos registrados -->
-    </tbody>
-  </table>
 </body>
 </html>
