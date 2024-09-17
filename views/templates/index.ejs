@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Evaluación NodeJS con EJS</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Añadir estilos CSS si es necesario -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Formulario de Registro</h1>
+
+  <!-- Formulario para capturar datos -->
+  <form action="/add-object" method="POST">
+    <label for="departamento">Departamento:</label>
+    <select id="departamento" name="departamento">
+      <option value="" disabled selected>Selecciona un Departamento</option>
+      <% for (let departamento in departamentos) { %>
+        <option value="<%= departamento %>"><%= departamento %></option>
+      <% } %>
+    </select>
+
+    <label for="municipio">Municipio:</label>
+    <select id="municipio" name="municipio">
+      <option value="" disabled selected>Selecciona un Municipio</option>
+    </select>
+
+    <!-- Agrega otros campos necesarios para tu objeto aquí -->
+
+    <button type="submit">Agregar</button>
+  </form>
+
+  <!-- Script para actualizar municipios dinámicamente -->
+  <script>
+    $('#departamento').change(function() {
+      const departamento = $(this).val();
+      $.post('/get-municipios', { departamento }, function(data) {
+        const municipioSelect = $('#municipio');
+        municipioSelect.empty();
+        municipioSelect.append('<option value="" disabled selected>Selecciona un Municipio</option>');
+        data.forEach(function(municipio) {
+          municipioSelect.append('<option value="' + municipio + '">' + municipio + '</option>');
+        });
+      });
+    });
+  </script>
+
+  <!-- Tabla para mostrar objetos agregados -->
+  <h2>Objetos Registrados</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Departamento</th>
+        <th>Municipio</th>
+        <!-- Añadir más columnas según los atributos del objeto -->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí se mostrarán los objetos registrados -->
+    </tbody>
+  </table>
+</body>
+</html>
