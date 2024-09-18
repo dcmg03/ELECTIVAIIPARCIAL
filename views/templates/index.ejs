@@ -30,8 +30,13 @@
       </div>
 
       <div class="form-group">
-        <label for="nombreObjeto">Nombre del Objeto:</label>
-        <input type="text" id="nombreObjeto" name="nombreObjeto" class="form-control" required>
+        <label for="carro">Selecciona un Carro:</label>
+        <select id="carro" name="carro" class="form-control" required>
+          <option value="" disabled selected>Selecciona un Carro</option>
+          <% carros.forEach(function(carro) { %>
+            <option value="<%= carro.id %>"><%= carro.marca %> <%= carro.modelo %> (<%= carro.anio %>)</option>
+          <% }); %>
+        </select>
       </div>
 
       <button type="submit" class="btn btn-primary">Agregar</button>
@@ -43,7 +48,7 @@
         <tr>
           <th>Departamento</th>
           <th>Municipio</th>
-          <th>Nombre del Objeto</th>
+          <th>Carro</th>
         </tr>
       </thead>
       <tbody>
@@ -51,7 +56,7 @@
           <tr>
             <td><%= objeto.departamento %></td>
             <td><%= objeto.municipio %></td>
-            <td><%= objeto.nombreObjeto %></td>
+            <td><%= objeto.carro %></td>
           </tr>
         <% }); %>
       </tbody>
