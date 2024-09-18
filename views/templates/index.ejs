@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario de Registro</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="text-center">Registro de Automoviles</h1>
+    <h1 class="text-center">Registro de Objetos</h1>
     <form action="/add-object" method="POST" class="mt-4">
       <div class="form-group">
         <label for="departamento">Departamento:</label>
@@ -29,7 +30,7 @@
         </select>
       </div>
 
-      <h3>Información del Automovil</h3>
+      <h3>Información del Carro</h3>
       <div class="form-group">
         <label for="carroMarca">Marca del Carro:</label>
         <input type="text" id="carroMarca" name="carroMarca" class="form-control" required>
@@ -53,7 +54,7 @@
       <button type="submit" class="btn btn-primary">Agregar</button>
     </form>
 
-    <h2 class="mt-5">Automoviles Registrados</h2>
+    <h2 class="mt-5">Objetos Registrados</h2>
     <table class="table table-striped mt-3">
       <thead>
         <tr>
@@ -78,11 +79,15 @@
             <td>
               <form action="/delete-object" method="POST" style="display:inline;">
                 <input type="hidden" name="index" value="<%= index %>">
-                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                <button type="submit" class="btn btn-danger btn-sm">
+                  <i class="fas fa-trash-alt"></i> Eliminar
+                </button>
               </form>
               <form action="/edit-object" method="GET" style="display:inline;">
                 <input type="hidden" name="index" value="<%= index %>">
-                <button type="submit" class="btn btn-warning btn-sm">Actualizar</button>
+                <button type="submit" class="btn btn-warning btn-sm">
+                  <i class="fas fa-edit"></i> Actualizar
+                </button>
               </form>
             </td>
           </tr>
