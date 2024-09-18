@@ -2,47 +2,61 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulario de Registro</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-  <h1>Formulario de Registro</h1>
+  <div class="container mt-5">
+    <h1 class="text-center">Registro de Objetos</h1>
+    <form action="/add-object" method="POST" class="mt-4">
+      <div class="form-group">
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" name="departamento" class="form-control" required>
+          <option value="" disabled selected>Selecciona un Departamento</option>
+          <% departamentos.forEach(function(departamento) { %>
+            <option value="<%= departamento.code %>"><%= departamento.name %></option>
+          <% }); %>
+        </select>
+      </div>
 
-  <form action="/add-object" method="POST">
-    <label for="departamento">Departamento:</label>
-    <select id="departamento" name="departamento">
-      <option value="" disabled selected>Selecciona un Departamento</option>
-      <% departamentos.forEach(function(departamento) { %>
-        <option value="<%= departamento.code %>"><%= departamento.name %></option>
-      <% }); %>
-    </select>
+      <div class="form-group">
+        <label for="municipio">Municipio:</label>
+        <select id="municipio" name="municipio" class="form-control" required>
+          <option value="" disabled selected>Selecciona un Municipio</option>
+        </select>
+      </div>
 
-    <label for="municipio">Municipio:</label>
-    <select id="municipio" name="municipio">
-      <option value="" disabled selected>Selecciona un Municipio</option>
-    </select>
+      <div class="form-group">
+        <label for="nombreObjeto">Nombre del Objeto:</label>
+        <input type="text" id="nombreObjeto" name="nombreObjeto" class="form-control" required>
+      </div>
 
-    <button type="submit">Agregar</button>
-  </form>
+      <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
 
-  <h2>Objetos Registrados</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Departamento</th>
-        <th>Municipio</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% objetos.forEach(function(objeto) { %>
+    <h2 class="mt-5">Objetos Registrados</h2>
+    <table class="table table-striped mt-3">
+      <thead>
         <tr>
-          <td><%= objeto.departamento %></td>
-          <td><%= objeto.municipio %></td>
+          <th>Departamento</th>
+          <th>Municipio</th>
+          <th>Nombre del Objeto</th>
         </tr>
-      <% }); %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% objetos.forEach(function(objeto) { %>
+          <tr>
+            <td><%= objeto.departamento %></td>
+            <td><%= objeto.municipio %></td>
+            <td><%= objeto.nombreObjeto %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
 
   <script>
     $('#departamento').change(function() {
