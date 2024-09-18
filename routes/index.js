@@ -18,11 +18,9 @@ function loadJSONData() {
   try {
     const departmentsData = fs.readFileSync(departmentsFilePath, 'utf8');
     const townsData = fs.readFileSync(townsFilePath, 'utf8');
-    const carsData = fs.readFileSync(carsFilePath, 'utf8'); // Cargar carros
 
     departamentos = JSON.parse(departmentsData); // Cargar departamentos
     const towns = JSON.parse(townsData); // Cargar municipios
-    carros = JSON.parse(carsData); // Cargar carros
 
     // Organizar municipios por departamento
     towns.forEach(town => {
@@ -45,8 +43,8 @@ let objetosRegistrados = [];
 
 // Ruta para la página principal
 router.get('/', (req, res) => {
-  // Renderiza la vista 'index' con los departamentos, carros y objetos registrados
-  res.render('index', { departamentos, carros, objetos: objetosRegistrados });
+  // Renderiza la vista 'index' con los departamentos y objetos registrados
+  res.render('index', { departamentos, objetos: objetosRegistrados });
 });
 
 // Ruta para manejar la obtención de municipios basados en el departamento seleccionado
@@ -58,10 +56,22 @@ router.post('/get-municipios', (req, res) => {
 
 // Ruta para manejar la adición de un nuevo objeto
 router.post('/add-object', (req, res) => {
-  const { departamento, municipio, carro } = req.body; // Cambiar nombreObjeto a carro
+  const { departamento, municipio, carroMarca, carroModelo, carroAnio, carroColor } = req.body;
+
+  // Crea un nuevo objeto con la información del carro ingresada por el usuario
+  const nuevoObjeto = {
+    departamento,
+    municipio,
+    carro: {
+      marca: carroMarca,
+      modelo: carroModelo,
+      anio: carroAnio,
+      color: carroColor
+    }
+  };
 
   // Agrega el nuevo objeto a la lista
-  objetosRegistrados.push({ departamento, municipio, carro });
+  objetosRegistrados.push(nuevoObjeto);
 
   // Redirige a la página principal para mostrar el objeto agregado
   res.redirect('/');
