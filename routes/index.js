@@ -6,12 +6,10 @@ const router = express.Router();
 // Rutas de los archivos JSON
 const departmentsFilePath = path.join(__dirname, '../public/js/departments.json');
 const townsFilePath = path.join(__dirname, '../public/js/towns.json');
-const carsFilePath = path.join(__dirname, '../public/js/carros.json');
 
-// Leer y parsear datos de departamentos, municipios y carros
+// Leer y parsear datos de departamentos y municipios
 let departamentos = [];
 let municipios = {};
-let carros = [];
 
 // Función para cargar los datos desde los archivos JSON
 function loadJSONData() {
@@ -43,14 +41,12 @@ let objetosRegistrados = [];
 
 // Ruta para la página principal
 router.get('/', (req, res) => {
-  // Renderiza la vista 'index' con los departamentos y objetos registrados
   res.render('index', { departamentos, objetos: objetosRegistrados });
 });
 
 // Ruta para manejar la obtención de municipios basados en el departamento seleccionado
 router.post('/get-municipios', (req, res) => {
   const { departamento } = req.body;
-  // Retorna los municipios correspondientes al departamento seleccionado
   res.json(municipios[departamento] || []);
 });
 
@@ -58,7 +54,6 @@ router.post('/get-municipios', (req, res) => {
 router.post('/add-object', (req, res) => {
   const { departamento, municipio, carroMarca, carroModelo, carroAnio, carroColor } = req.body;
 
-  // Crea un nuevo objeto con la información del carro ingresada por el usuario
   const nuevoObjeto = {
     departamento,
     municipio,
@@ -70,10 +65,48 @@ router.post('/add-object', (req, res) => {
     }
   };
 
-  // Agrega el nuevo objeto a la lista
   objetosRegistrados.push(nuevoObjeto);
+  res.redirect('/');
+});
 
-  // Redirige a la página principal para mostrar el objeto agregado
+// Ruta para manejar la eliminación de un objeto
+router.post('/delete-object', (req, res) => {
+  const { index } = req.body;
+  if (index >= 0 && index < objetosRegistrados.length) {
+    objetosRegistrados.splice(index, 1);
+  }
+  res.redirect('/');
+});
+
+// Ruta para mostrar el formulario de edición
+router.get('/edit-object', (req, res) => {
+  const { index } = req.query;
+
+  if (index >= 0 && index < objetosRegistrados.length) {
+    const objeto = objetosRegistrados[index];
+    res.render('edit', { objeto, index });
+  } else {
+    res.redirect('/');
+  }
+});
+
+// Ruta para manejar la actualización de un objeto
+router.post('/update-object', (req, res) => {
+  const { index, departamento, municipio, carroMarca, carroModelo, carroAnio, carroColor } = req.body;
+
+  if (index >= 0 && index < objetosRegistrados.length) {
+    objetosRegistrados[index] = {
+      departamento,
+      municipio,
+      carro: {
+        marca: carroMarca,
+        modelo: carroModelo,
+        anio: carroAnio,
+        color: carroColor
+      }
+    };
+  }
+
   res.redirect('/');
 });
 

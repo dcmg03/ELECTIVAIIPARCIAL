@@ -29,7 +29,7 @@
         </select>
       </div>
 
-      <h3>Información del automovil</h3>
+      <h3>Información del Automovil</h3>
       <div class="form-group">
         <label for="carroMarca">Marca del Carro:</label>
         <input type="text" id="carroMarca" name="carroMarca" class="form-control" required>
@@ -63,10 +63,11 @@
           <th>Modelo del Carro</th>
           <th>Año del Carro</th>
           <th>Color del Carro</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <% objetos.forEach(function(objeto) { %>
+        <% objetos.forEach(function(objeto, index) { %>
           <tr>
             <td><%= objeto.departamento %></td>
             <td><%= objeto.municipio %></td>
@@ -74,6 +75,16 @@
             <td><%= objeto.carro.modelo %></td>
             <td><%= objeto.carro.anio %></td>
             <td><%= objeto.carro.color %></td>
+            <td>
+              <form action="/delete-object" method="POST" style="display:inline;">
+                <input type="hidden" name="index" value="<%= index %>">
+                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+              </form>
+              <form action="/edit-object" method="GET" style="display:inline;">
+                <input type="hidden" name="index" value="<%= index %>">
+                <button type="submit" class="btn btn-warning btn-sm">Actualizar</button>
+              </form>
+            </td>
           </tr>
         <% }); %>
       </tbody>
